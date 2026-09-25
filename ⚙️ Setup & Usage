@@ -1,0 +1,118 @@
+## ⚙️ Setup & Usage
+
+### 1. Prerequisites
+
+To run this project, you will need:
+
+* **SQL Server** — SQL Server 2019 or later recommended
+* **SQL Server Management Studio (SSMS)** or another SQL client
+* Access to the project's source database containing:
+
+  * `gold.fact_sales`
+  * `gold.dim_customers`
+
+### 2. Clone the Repository
+
+Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/Shetta24
+```
+
+Navigate to the project directory:
+
+```bash
+cd customer-analytics-sql
+```
+
+### 3. Prepare the Database
+
+Open the SQL script in **SQL Server Management Studio**.
+
+Make sure your database contains the required tables:
+
+```text
+gold.fact_sales
+gold.dim_customers
+```
+
+The project expects the following key columns:
+
+**fact_sales**
+
+```text
+order_number
+product_key
+order_date
+sales_amount
+quantity
+customer_key
+```
+
+**dim_customers**
+
+```text
+customer_key
+customer_number
+first_name
+last_name
+birthdate
+```
+
+### 4. Run the SQL Script
+
+Open:
+
+```text
+scripts/customer_report.sql
+```
+
+Select the appropriate database and execute the script.
+
+The script creates the following SQL view:
+
+```sql
+gold.report_customers
+```
+
+### 5. View the Results
+
+After successfully executing the script, run:
+
+```sql
+SELECT *
+FROM gold.report_customers;
+```
+
+This will return the final customer-level analytical report.
+
+### 6. Explore the Results
+
+The resulting view can be used for further analysis, reporting, or visualization in tools such as **Power BI**, Excel, or other BI platforms.
+
+Example:
+
+```sql
+SELECT
+    customer_segment,
+    COUNT(*) AS customers,
+    SUM(total_sales) AS total_sales,
+    AVG(avg_order_value) AS avg_order_value
+FROM gold.report_customers
+GROUP BY customer_segment;
+```
+
+This allows you to quickly analyze customer segments and their contribution to overall sales.
+
+## 🔄 Reproducibility
+
+To reproduce the analysis:
+
+1. Set up the required SQL Server database.
+2. Ensure `gold.fact_sales` and `gold.dim_customers` are available.
+3. Open `customer_report.sql`.
+4. Execute the script.
+5. Query `gold.report_customers`.
+6. Use the resulting view for further analysis or visualization.
+
+> **Note:** This repository contains the SQL analysis logic. The underlying customer and sales datasets are not included if they contain proprietary or restricted data.
